@@ -6,11 +6,17 @@ import ImageSidebar from "./components/invoiceCard/ImageSidebar";
 import type { ImagePreview } from "../../data/Image";
 import { fileToBase64 } from "./utils/fileBase";
 import type { ImagePayload } from "../../types/image";
+import type { InvoiceData } from "../../types/invoice";
+import { usePost } from "../../hook/useFetch";
+import { Loading } from "../../components";
+import { useNavigate } from "react-router";
 
 
-const ImageUploader = ({ execute, data, loading, error }) => {
+const ImageUploader = () => {
   const [images, setImages] = useState<ImagePreview[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  const navigate = useNavigate();
 
   const handleFiles = (files: FileList) => {
     const newImages = Array.from(files).map((file) => ({
@@ -76,26 +82,45 @@ const ImageUploader = ({ execute, data, loading, error }) => {
     }
   };
 
-  const getImagesPayload = async (): Promise<ImagePayload[]> => {
-    return Promise.all(
-      images.map(async (image) => ({
-        imageBase64: await fileToBase64(image.file),
-        mimeType: image.file.type,
-      })),
-    );
-  };
+  const { execute,data, loading, error } = usePost<
+    InvoiceData[],
+    ImagePayload[]
+  >("http://localhost:3000/api/v1/invoice");
 
-  const handleUpload = async () => {
-    try {
-      const payload = await getImagesPayload();
+  if (loading) {
+    return <Loading />;
+  }
 
-      await execute(payload);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  if (error) {
+    return <h1>Hubo un error</h1>;
+  }
 
-  console.log(data);
+const getImagesPayload = async (): Promise<ImagePayload[]> => {
+  return Promise.all(
+    images.map(async (image) => ({
+      imageBase64: await fileToBase64(image.file),
+      mimeType: image.file.type,
+    })),
+  );
+};
+
+const handleUpload = async () => {
+  try {
+    const payload = await getImagesPayload();
+
+    await execute(payload);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+  if(data){
+    navigate("/invoices", {
+      state: {
+        invoices: data,
+      },
+    });
+  }
 
   return (
     <div className="w-full mx-auto">

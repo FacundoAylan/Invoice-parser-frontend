@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router";
+
 const Navbar = () => {
+
+  const navigate = useNavigate();
+
   return (
     <nav
       className=" w-full h-16
@@ -8,7 +13,8 @@ const Navbar = () => {
     >
       <img
         src="/image/logo.webp"
-        className="h-15 w-auto object-contain transition-transform duration-200 hover:scale-105"
+        className="h-15 w-auto object-contain transition-transform duration-200 hover:scale-105 hover:cursor-pointer"
+        onClick={ () => navigate("/") }
       />
     </nav>
   );

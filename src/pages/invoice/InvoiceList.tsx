@@ -2,11 +2,17 @@ import { useState } from "react";
 import type { InvoiceData } from "../../types/invoice";
 import InvoiceTable from "./components/InvoiceTable";
 import InvoiceListItems from "./components/InvoiceListItems";
+import { useLocation } from "react-router";
 
 
-const InvoiceList = ({ invoices }) => {
+const InvoiceList = () => {
+
+  const location = useLocation();
+
+  const invoices = location.state?.invoices ?? [];
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
 
+  console.log(invoices)
   return (
     <div className="w-full h-full flex overflow-hidden relative">
       <div
