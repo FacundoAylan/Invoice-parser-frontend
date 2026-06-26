@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { ImagePreview } from "./ImagePreview";
 import { ModalControls } from "./ModalControls";
+import { HiXMark } from "react-icons/hi2";
 
 interface ImagePreviewType {
   file: File;
@@ -25,12 +26,32 @@ export const Modal = ({
   onPrev,
   onDelete,
 }: ModalProps) => {
-  const [rotation, setRotation] = useState(0);
+const [rotations, setRotations] = useState<number[]>([]);
 
-  const image = images[currentIndex]?.url;
+const image = images[currentIndex]?.url;
+const rotation = rotations[currentIndex] ?? 0;
 
-  const handleRotateLeft = () => setRotation((prev) => prev - 90);
-  const handleRotateRight = () => setRotation((prev) => prev + 90);
+const handleRotateLeft = () => {
+  setRotations((prev) => {
+    const copy = [...prev];
+    copy[currentIndex] = (copy[currentIndex] ?? 0) - 90;
+    return copy;
+  });
+};
+
+const handleRotateRight = () => {
+  setRotations((prev) => {
+    const copy = [...prev];
+    copy[currentIndex] = (copy[currentIndex] ?? 0) + 90;
+    return copy;
+  });
+};
+
+  const handleDelete = () => {
+    setRotations((prev) => prev.filter((_, index) => index !== currentIndex));
+
+    onDelete();
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -56,10 +77,10 @@ export const Modal = ({
     };
   }, [onPrev, onNext, onDelete, onClose]);
 
+
   return (
-    <section
-      className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm"
-    >
+    <section className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm">
+      {/*Close Modal */}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -75,7 +96,7 @@ export const Modal = ({
           transition
         "
       >
-        ✕
+        <HiXMark className="text-xl" />
       </button>
       {/* Prev */}
       <button
@@ -90,7 +111,7 @@ export const Modal = ({
           bg-black/50
           text-white
           text-3xl
-          hover:bg-black/70
+          hover:bg-black/70 hover:cursor-pointer
         "
       >
         ‹
@@ -109,7 +130,7 @@ export const Modal = ({
           bg-black/50
           text-white
           text-3xl
-          hover:bg-black/70
+          hover:bg-black/70 hover:cursor-pointer
         "
       >
         ›
@@ -122,22 +143,20 @@ export const Modal = ({
         maxScale={4}
       >
         {({ zoomIn, zoomOut }) => (
-          <div
-            className="relative flex h-full w-full items-center justify-center"
-          >
+          <div className="relative flex h-full w-full items-center justify-center">
             <TransformComponent
-              wrapperClass="!w-full !h-full flex items-center justify-center"
+              wrapperClass="max-w-full max-h-full flex items-center justify-center"
               contentClass="flex items-center justify-center min-h-full min-w-full"
             >
               <ImagePreview image={image} rotation={rotation} />
             </TransformComponent>
 
             <ModalControls
-              onZoomIn={()=>zoomIn()}
-              onZoomOut={()=>zoomOut()}
+              onZoomIn={() => zoomIn()}
+              onZoomOut={() => zoomOut()}
               onRotateLeft={handleRotateLeft}
               onRotateRight={handleRotateRight}
-              onDelete={onDelete}
+              onDelete={handleDelete}
             />
           </div>
         )}

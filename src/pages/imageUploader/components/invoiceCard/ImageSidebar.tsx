@@ -44,7 +44,7 @@ export const ImageSidebar = ({
         <button
           className="
             bg-[#7ED957] hover:bg-[#6CC84A]
-            text-[#0A2540] font-bold
+            text-white font-bold
             px-5 py-2 rounded-xl
             shadow-md transition-all
             hover:cursor-pointer hover:scale-105

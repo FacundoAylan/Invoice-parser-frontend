@@ -1,3 +1,5 @@
+import { FaTrash } from "react-icons/fa";
+
 interface ModalControlsProps {
   onZoomIn: () => void;
   onZoomOut: () => void;
@@ -52,24 +54,12 @@ export const ModalControls = ({
         className="
           w-10 h-10 flex items-center justify-center
           rounded-lg bg-red-600 text-white
-          hover:bg-red-700 hover:scale-110
+          hover:bg-red-700 hover:scale-110 hover:cursor-pointer
           transition-all duration-200 shadow-md
         "
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={2}
-          stroke="currentColor"
-          className="w-5 h-5"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M3 6h18M9 6V4h6v2m-7 4v6m4-6v6m4-6v6M5 6l1 14h12l1-14"
-          />
-        </svg>
+        <FaTrash className="text-lg" />
+
       </button>
     </div>
   );
