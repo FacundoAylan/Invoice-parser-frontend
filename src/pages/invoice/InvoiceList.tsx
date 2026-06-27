@@ -12,7 +12,6 @@ const InvoiceList = () => {
   const invoices = location.state?.invoices ?? [];
   const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(null);
 
-  console.log(invoices)
   return (
     <div className="w-full h-full flex overflow-hidden relative">
       <div

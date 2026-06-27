@@ -8,8 +8,7 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }) => {
         className="
           relative
           flex-shrink-0
-          bg-[#16284B]
-          border border-[#7ED957]/40
+          border-3 border-[#7ED957]/60
           rounded-xl
           overflow-hidden
           shadow-lg
@@ -21,6 +20,7 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }) => {
           alt={`preview-${index}`}
           className="
             w-full h-32 object-cover
+            bg-black/50 backdrop-blur-md
             cursor-pointer
             transition-transform duration-300
             hover:scale-105
