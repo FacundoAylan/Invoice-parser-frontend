@@ -42,9 +42,9 @@ export const ImageSidebar = ({
 
       <div className="flex gap-3 mt-2">
         <button
-          className="
-            bg-[#7ED957] hover:bg-[#6CC84A]
-            text-white font-bold
+          className="flex items-center justify-center
+            bg-[#0a2540]
+            text-[#7ed957] font-bold
             px-5 py-2 rounded-xl
             shadow-md transition-all
             hover:cursor-pointer hover:scale-105
@@ -52,6 +52,10 @@ export const ImageSidebar = ({
           onClick={onUpload}
         >
           Subir
+          <img 
+            src="/image/logo2.webp"
+            className="w-6 h-6"
+          />
         </button>
 
         <button
