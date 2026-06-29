@@ -1,15 +1,12 @@
 const Loading = () => {
   return (
-    <section className="w-full h-screen flex items-center justify-center bg-[#121417]">
-      <div className="flex flex-col items-center gap-4">
+    <section className="w-full h-full flex flex-col gap-4 items-center justify-center">
         {/* Spinner */}
-        <div className="w-12 h-12 border-4 border-gray-300 border-t-[#7ED957] rounded-full animate-spin"></div>
+        <div className="w-24 h-24 border-6 border-gray-300 border-t-[#0a2540] rounded-full animate-spin"/>
 
-        {/* Texto */}
-        <span className="text-gray-400 text-sm md:text-base font-medium tracking-wide">
+        <span className="text-[#0a2540] text-xl font-medium tracking-wide">
           Cargando...
         </span>
-      </div>
     </section>
   );
 };

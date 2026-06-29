@@ -3,13 +3,14 @@ import { Modal } from "./components/modal/modal";
 import InputCard from "./components/inputCard/InputCard";
 import ImageSidebar from "./components/invoiceCard/ImageSidebar";
 
-import type { ImagePreview } from "../../data/Image";
 import { fileToBase64 } from "./utils/fileBase";
-import type { ImagePayload } from "../../types/image";
+import type { ImagePayload, ImagePreview } from "../../types/image";
 import type { InvoiceData } from "../../types/invoice";
 import { usePost } from "../../hook/useFetch";
 import { Loading } from "../../components";
 import { useNavigate } from "react-router";
+
+const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 const ImageUploader = () => {
@@ -82,17 +83,18 @@ const ImageUploader = () => {
     }
   };
 
-  const { execute,data, loading, error } = usePost<
+  const { execute, data, loading, error } = usePost<
     InvoiceData[],
     ImagePayload[]
-  >("http://localhost:3000/api/v1/invoice");
+  >(`${API_URL}/invoice`);
 
   if (loading) {
     return <Loading />;
   }
 
   if (error) {
-    return <h1>Hubo un error</h1>;
+    navigate("/error");
+    return; 
   }
 
 const getImagesPayload = async (): Promise<ImagePayload[]> => {

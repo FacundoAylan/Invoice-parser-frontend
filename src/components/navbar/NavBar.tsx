@@ -4,6 +4,10 @@ const Navbar = () => {
 
   const navigate = useNavigate();
 
+  const redirect = () =>{
+    navigate("/");
+  };
+
   return (
     <nav
       className=" w-full h-16
@@ -15,7 +19,7 @@ const Navbar = () => {
       <img
         src="/image/logo.webp"
         className="h-12 w-auto object-contain transition-transform duration-200 hover:scale-105 hover:cursor-pointer"
-        onClick={() => navigate("/")}
+        onClick={redirect}
       />
     </nav>
   );

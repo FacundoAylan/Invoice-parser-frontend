@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { InvoiceData } from "../../types/invoice";
+import type { InvoiceData } from "@/types/invoice";
 import InvoiceTable from "./components/InvoiceTable";
 import InvoiceListItems from "./components/InvoiceListItems";
 import { useLocation } from "react-router";

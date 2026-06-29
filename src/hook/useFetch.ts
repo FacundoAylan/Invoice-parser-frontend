@@ -34,7 +34,7 @@ export const usePost = <TResponse, TBody>(
         throw new Error("Error en la petición");
       }
 
-      const jsonData: TResponse = await response.json();
+      const jsonData = (await response.json()) as { invoices: TResponse };
 
       setData(jsonData.invoices);
       setError(null);
