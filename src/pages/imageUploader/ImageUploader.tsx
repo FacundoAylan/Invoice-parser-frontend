@@ -28,13 +28,6 @@ const ImageUploader = () => {
     setImages((prev) => [...prev, ...newImages]);
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-
-    if (e.dataTransfer.files.length > 0) {
-      handleFiles(e.dataTransfer.files);
-    }
-  };
 
   const handleDelete = (index: number) => {
     setImages((prev) => {
@@ -127,7 +120,7 @@ const handleUpload = async () => {
   return (
     <div className="w-full mx-auto">
       <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-8">
-        <InputCard handleDrop={handleDrop} handleFiles={handleFiles} />
+        <InputCard handleFiles={handleFiles} />
 
         {images.length > 0 && (
           <ImageSidebar
@@ -139,14 +132,6 @@ const handleUpload = async () => {
           />
         )}
       </div>
-
-      {loading && (
-        <p className="text-center mt-4 text-white">Procesando imágenes...</p>
-      )}
-
-      {error && (
-        <p className="text-center mt-4 text-red-500">{error.message}</p>
-      )}
 
       {selectedIndex !== null && (
         <Modal

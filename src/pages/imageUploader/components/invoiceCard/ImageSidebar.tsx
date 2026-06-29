@@ -1,4 +1,4 @@
-import type { ImagePreview } from "../../../../data/Image";
+import type { ImagePreview } from "@/types/image";
 import InvoiceCard from "./InvoiceCard";
 
 interface Props {

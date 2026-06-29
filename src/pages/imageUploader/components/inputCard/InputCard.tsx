@@ -1,18 +1,36 @@
-const InputCard = ({ handleDrop, handleFiles }) => {
+interface InputCardProps {
+  handleFiles: (files: FileList) => void;
+}
+
+const InputCard = ({ handleFiles }: InputCardProps) => {
+  const handleDropLocal = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    if (e.dataTransfer.files.length > 0) {
+      handleFiles(e.dataTransfer.files);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      handleFiles(e.target.files);
+    }
+  };
+
   return (
     <section
       className="
-            w-full lg:w-[500px]
-            bg-[#16284B]
-            rounded-2xl
-            shadow-2xl
-            border-t-8 border-[#7ED957]
-            p-8
-            text-center
-            transition-all
-          "
+        w-full lg:w-[500px]
+        bg-[#16284B]
+        rounded-2xl
+        shadow-2xl
+        border-t-8 border-[#7ED957]
+        p-8
+        text-center
+        transition-all
+      "
       onDragOver={(e) => e.preventDefault()}
-      onDrop={handleDrop}
+      onDrop={handleDropLocal}
     >
       <input
         type="file"
@@ -20,7 +38,7 @@ const InputCard = ({ handleDrop, handleFiles }) => {
         accept="image/*"
         id="fileInput"
         className="hidden"
-        onChange={(e) => handleFiles(e.target.files)}
+        onChange={handleInputChange}
       />
 
       <label
@@ -43,15 +61,15 @@ const InputCard = ({ handleDrop, handleFiles }) => {
 
         <span
           className="
-                mt-2
-                bg-[#7ED957]
-                hover:bg-[#6cc84b]
-                text-white
-                font-bold
-                px-8 py-4
-                rounded-2xl
-                transition
-              "
+            mt-2
+            bg-[#7ED957]
+            hover:bg-[#6cc84b]
+            text-white
+            font-bold
+            px-8 py-4
+            rounded-2xl
+            transition
+          "
         >
           Elegir archivos
         </span>

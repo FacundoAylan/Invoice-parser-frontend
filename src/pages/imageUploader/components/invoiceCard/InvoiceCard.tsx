@@ -1,6 +1,14 @@
+import type { ImagePreview } from "@/types/image";
 import { FaTrash } from "react-icons/fa";
 
-const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }) => {
+interface InvoiceCardProps {
+  img: ImagePreview;
+  index: number;
+  setSelectedIndex: (index: number) => void;
+  handleDelete: (index: number) => void;
+};
+
+const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }: InvoiceCardProps) => {
   return (
     <section>
       <div
@@ -8,11 +16,9 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }) => {
         className="
           relative
           flex-shrink-0
-          border-3 border-[#7ED957]/60
           rounded-xl
           overflow-hidden
-          shadow-lg
-          transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl
+          transition-transform duration-300 hover:scale-[1.02]
         "
       >
         <img
@@ -23,7 +29,8 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }) => {
             bg-black/50 backdrop-blur-md
             cursor-pointer
             transition-transform duration-300
-            hover:scale-105
+            border-4 border-[#0a2540]
+            rounded-xl
           "
           onClick={() => setSelectedIndex(index)}
         />

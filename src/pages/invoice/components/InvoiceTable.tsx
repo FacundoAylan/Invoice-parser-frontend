@@ -1,5 +1,5 @@
 import { HiXMark } from "react-icons/hi2";
-import type { InvoiceData, Item } from "../../../types/invoice";
+import type { InvoiceData, Item } from "@/types/invoice";
 
 interface InvoiceTable{
   invoice: InvoiceData,
@@ -60,12 +60,13 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
 
               <div>
                 <span className="inline-block bg-gray-800/30 border border-gray-700/40 text-gray-300 text-xs md:text-sm px-2 py-0.5 rounded-3xl">
-                  ${item.unitPrice.toFixed(2)}
+                  ${item.unitPriceWithoutIva.toFixed(2)}
                 </span>
               </div>
 
               <div className="font-bold text-gray-200 text-sm">
-                ${(item.quantityPurchased * item.unitPrice).toFixed(2)}
+                $
+                {(item.quantityPurchased * item.unitPriceWithoutIva).toFixed(2)}
               </div>
             </div>
           ))}

@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router";
-import type { InvoiceData} from "../../../types/invoice";
+import type { InvoiceData} from "@/types/invoice";
+
+interface InvoiceListItemsProps {
+  invoices: InvoiceData[]; 
+  setSelectedInvoice: (invoice: InvoiceData) => void;
+}
 
 
-const InvoiceListItems = ({ invoices, setSelectedInvoice }) => {
+const InvoiceListItems = ({ invoices, setSelectedInvoice }: InvoiceListItemsProps) => {
 
   const navigate = useNavigate();
 

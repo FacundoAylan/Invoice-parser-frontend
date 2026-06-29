@@ -2,7 +2,7 @@
 export interface Item {
   description: string;
   quantityPurchased: number;
-  unitPrice: number;
+  unitPriceWithoutIva: number;
 }
 
 export interface InvoiceData {
