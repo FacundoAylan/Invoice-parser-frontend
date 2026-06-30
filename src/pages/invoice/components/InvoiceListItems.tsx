@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import type { InvoiceData} from "@/types/invoice";
+import { FiDownload } from "react-icons/fi";
 
 interface InvoiceListItemsProps {
   invoices: InvoiceData[]; 
@@ -60,16 +61,44 @@ const InvoiceListItems = ({ invoices, setSelectedInvoice }: InvoiceListItemsProp
         ))}
       </div>
 
-      <div className="w-full flex justify-center items-center pt-6">
+      <div className="w-full flex flex-wrap justify-center items-center gap-4 pt-6">
         <button
-          className="bg-[#0a2540] py-2 px-4 
-          rounded-3xl border-2 border-[#7ED957]/60 text-white 
-          text-green-500 font-semibold
-          hover:cursor-pointer hover:scale-101
-          transition-all duration-200"
           onClick={handleRedirectClick}
+          className="
+            px-6 py-3
+            rounded-xl
+            border border-[#7ED957]
+            bg-[#0A2540]
+            text-white
+            font-semibold
+            transition-all duration-200
+            hover:bg-[#12345A]
+            hover:shadow-lg
+            hover:-translate-y-0.5 hover:cursor-pointer
+            active:translate-y-0
+          "
         >
           Cargar nuevas facturas
+        </button>
+
+        <button
+          className="
+            flex items-center gap-2
+            px-6 py-3
+            rounded-xl
+            bg-[#8fbe4e]
+            text-[#0A2540]
+            font-semibold
+            transition-all duration-200
+            hover:bg-[#91E86A]
+            hover:shadow-lg
+            hover:-translate-y-0.5 hover:cursor-pointer
+            active:translate-y-0
+          "
+          onClick={() => "Aqui va el codigo de Nahuel invoices[data del back]"}
+        >
+          <FiDownload size={20} />
+          <span>Descargar facturas</span>
         </button>
       </div>
     </div>
