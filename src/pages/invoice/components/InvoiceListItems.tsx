@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
-import type { InvoiceData } from "@/types/invoice";
 import { FiDownload } from "react-icons/fi";
+import type { InvoiceData } from "@/types/invoice";
+import exportInvoicesToExcel from "@/utils/excel/exportInvoicesToExcel";
 
 interface InvoiceListItemsProps {
   invoices: InvoiceData[];
@@ -96,7 +97,7 @@ const InvoiceListItems = ({
             hover:-translate-y-0.5 hover:cursor-pointer
             active:translate-y-0
           "
-          onClick={() => "Aqui va el codigo de Nahuel invoices[data del back]"}
+          onClick={() => exportInvoicesToExcel(invoices.map((inv) => ({ invoice: inv })))}
         >
           <FiDownload size={20} />
           <span>Descargar facturas</span>
