@@ -1,6 +1,5 @@
 import { HiXMark } from "react-icons/hi2";
 import type { InvoiceData, Item } from "@/types/invoice";
-import { FiDownload } from "react-icons/fi";
 
 interface InvoiceTable{
   invoice: InvoiceData,
@@ -71,27 +70,6 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
               </div>
             </div>
           ))}
-        </div>
-        <div className="w-full flex justify-center items-center">
-          <button
-            className="
-                flex items-center gap-2
-                px-6 py-3
-                rounded-xl
-                bg-[#8fbe4e]
-                text-[#0A2540]
-                font-semibold
-                transition-all duration-200
-                hover:bg-[#91E86A]
-                hover:shadow-lg
-                hover:-translate-y-0.5 hover:cursor-pointer
-                active:translate-y-0
-              "
-            onClick={() => "Aqui va el codigo de Nahuel invoice"}
-          >
-            <FiDownload size={20} />
-            <span>Descargar Excel</span>
-          </button>
         </div>
       </div>
     </section>
