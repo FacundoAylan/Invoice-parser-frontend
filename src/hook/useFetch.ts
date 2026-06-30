@@ -3,7 +3,7 @@ import { useState } from "react";
 type Data<T> = T | null;
 type ErrorType = Error | null;
 
-interface Params<TResponse, TBody> {
+interface UsePostResult<TResponse, TBody> {
   data: Data<TResponse>;
   loading: boolean;
   error: ErrorType;
@@ -12,7 +12,7 @@ interface Params<TResponse, TBody> {
 
 export const usePost = <TResponse, TBody>(
   url: string,
-): Params<TResponse, TBody> => {
+): UsePostResult<TResponse, TBody> => {
   const [data, setData] = useState<Data<TResponse>>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);

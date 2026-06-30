@@ -63,7 +63,7 @@ const InputCard = ({ handleFiles }: InputCardProps) => {
           className="
             mt-2
             bg-[#7ED957]
-            hover:bg-[#6cc84b]
+            hover:bg-[#6cc84b] hover:-translate-y-0.5
             text-white
             font-bold
             px-8 py-4
