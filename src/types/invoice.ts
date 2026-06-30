@@ -1,7 +1,7 @@
-// -----------------Interface Invoice--------------------------
 export interface Item {
   description: string;
   quantityPurchased: number;
+  unitPriceWithIva: number;
   unitPriceWithoutIva: number;
 }
 
@@ -18,4 +18,3 @@ export interface InvoiceData {
 export interface InvoiceList {
   invoice: InvoiceData;
 }
-//---------------------------------------------------

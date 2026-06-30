@@ -1,18 +1,20 @@
 import { useNavigate } from "react-router";
-import type { InvoiceData} from "@/types/invoice";
 import { FiDownload } from "react-icons/fi";
+import type { InvoiceData } from "@/types/invoice";
+import exportInvoicesToExcel from "@/utils/excel/exportInvoicesToExcel";
 
 interface InvoiceListItemsProps {
-  invoices: InvoiceData[]; 
+  invoices: InvoiceData[];
   setSelectedInvoice: (invoice: InvoiceData) => void;
 }
 
-
-const InvoiceListItems = ({ invoices, setSelectedInvoice }: InvoiceListItemsProps) => {
-
+const InvoiceListItems = ({
+  invoices,
+  setSelectedInvoice,
+}: InvoiceListItemsProps) => {
   const navigate = useNavigate();
 
-  const handleRedirectClick = ()=>{
+  const handleRedirectClick = () => {
     navigate("/");
   };
 
@@ -52,7 +54,7 @@ const InvoiceListItems = ({ invoices, setSelectedInvoice }: InvoiceListItemsProp
             <div className="text-center">
               <button
                 onClick={() => setSelectedInvoice(invoice)}
-                className="w-full max-w-[100px] inline-block px-3 py-1.5 rounded-3xl text-xs font-semibold border-2 border-[#7ED957]/60 text-[#7ED957] transition-all duration-200 shadow-md hover:cursor-pointer"
+                className="w-full max-w-25 inline-block px-3 py-1.5 rounded-3xl text-xs font-semibold border-2 border-[#7ED957]/60 text-[#7ED957] transition-all duration-200 shadow-md hover:cursor-pointer"
               >
                 Ver Factura
               </button>
@@ -95,7 +97,7 @@ const InvoiceListItems = ({ invoices, setSelectedInvoice }: InvoiceListItemsProp
             hover:-translate-y-0.5 hover:cursor-pointer
             active:translate-y-0
           "
-          onClick={() => "Aqui va el codigo de Nahuel invoices[data del back]"}
+          onClick={() => exportInvoicesToExcel(invoices.map((inv) => ({ invoice: inv })))}
         >
           <FiDownload size={20} />
           <span>Descargar facturas</span>

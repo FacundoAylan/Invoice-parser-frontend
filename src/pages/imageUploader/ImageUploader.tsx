@@ -1,17 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import { Modal } from "./components/modal/modal";
 import InputCard from "./components/inputCard/InputCard";
 import ImageSidebar from "./components/invoiceCard/ImageSidebar";
-
 import { fileToBase64 } from "./utils/fileBase";
-import type { ImagePayload, ImagePreview } from "../../types/image";
-import type { InvoiceData } from "../../types/invoice";
-import { usePost } from "../../hook/useFetch";
-import { Loading } from "../../components";
-import { useNavigate } from "react-router";
+import type { ImagePayload, ImagePreview } from "@/types/image";
+import type { InvoiceData } from "@/types/invoice";
+import { usePost } from "@/hook/useFetch";
+import { Loading } from "@/components";
 
 const API_URL = import.meta.env.VITE_API_BASE_URL;
-
 
 const ImageUploader = () => {
   const [images, setImages] = useState<ImagePreview[]>([]);
@@ -27,7 +25,6 @@ const ImageUploader = () => {
 
     setImages((prev) => [...prev, ...newImages]);
   };
-
 
   const handleDelete = (index: number) => {
     setImages((prev) => {
@@ -81,41 +78,44 @@ const ImageUploader = () => {
     ImagePayload[]
   >(`${API_URL}/invoice`);
 
-  if (loading) {
+  useEffect(() => {
+    if (error) {
+      navigate("/error");
+    }
+  }, [error, navigate]);
+
+  useEffect(() => {
+    if (data) {
+      navigate("/invoices", {
+        state: {
+          invoices: data,
+        },
+      });
+    }
+  }, [data, navigate]);
+
+  if (loading || error || data) {
     return <Loading />;
   }
 
-  if (error) {
-    navigate("/error");
-    return; 
-  }
+  const getImagesPayload = async (): Promise<ImagePayload[]> => {
+    return Promise.all(
+      images.map(async (image) => ({
+        imageBase64: await fileToBase64(image.file),
+        mimeType: image.file.type,
+      })),
+    );
+  };
 
-const getImagesPayload = async (): Promise<ImagePayload[]> => {
-  return Promise.all(
-    images.map(async (image) => ({
-      imageBase64: await fileToBase64(image.file),
-      mimeType: image.file.type,
-    })),
-  );
-};
+  const handleUpload = async () => {
+    try {
+      const payload = await getImagesPayload();
 
-const handleUpload = async () => {
-  try {
-    const payload = await getImagesPayload();
-
-    await execute(payload);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-  if(data){
-    navigate("/invoices", {
-      state: {
-        invoices: data,
-      },
-    });
-  }
+      await execute(payload);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="w-full mx-auto">
