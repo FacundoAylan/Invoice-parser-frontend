@@ -20,19 +20,25 @@ const InvoiceListItems = ({
 
   return (
     <div className="relative w-full h-full mx-auto p-4 shadow-2xl overflow-y-scroll">
-      <div className="grid grid-cols-[1fr_100px_110px_100px] md:grid-cols-[1fr_120px_140px_120px] text-gray-500 text-xs uppercase tracking-wider px-4 pb-2 text-right">
+      {/* Header */}
+      <div className="grid grid-cols-[1fr_100px] md:grid-cols-[1fr_120px_140px_120px] text-gray-500 text-xs uppercase tracking-wider px-4 pb-2">
         <span className="text-left font-semibold">Proveedor</span>
-        <span className="text-center font-semibold">Fecha</span>
-        <span className="font-semibold">Nº Factura</span>
+
+        <span className="hidden md:block text-center font-semibold">Fecha</span>
+
+        <span className="hidden md:block text-right font-semibold">
+          Nº Factura
+        </span>
+
         <span className="text-center font-semibold">Acción</span>
       </div>
 
       {/* List invoice */}
       <div className="flex flex-col gap-2">
-        {invoices.map((invoice: InvoiceData, index: number) => (
+        {invoices.map((invoice, index) => (
           <div
             key={index}
-            className="grid grid-cols-[1fr_100px_110px_100px] md:grid-cols-[1fr_120px_140px_120px] bg-[#0A2540] hover:scale-101 transition-all duration-150 p-3 rounded-xl items-center text-right border border-gray-800/60"
+            className="grid grid-cols-[1fr_100px] md:grid-cols-[1fr_120px_140px_120px] bg-[#0A2540] hover:scale-101 transition-all duration-150 p-3 rounded-xl items-center border border-gray-800/60"
           >
             {/* Proveedor */}
             <div className="text-left font-medium text-white text-xs md:text-sm truncate pr-2">
@@ -40,23 +46,24 @@ const InvoiceListItems = ({
             </div>
 
             {/* Fecha */}
-            <div className="text-center">
+            <div className="hidden md:flex justify-center">
               <span className="inline-block bg-gray-800/40 border border-gray-700/40 text-gray-300 text-xs px-2.5 py-1 rounded-3xl">
                 {invoice.dateOfInvoice}
               </span>
             </div>
 
-            {/* N°Factura */}
-            <div className="text-gray-400 text-xs md:text-sm font-mono">
+            {/* Nº Factura */}
+            <div className="hidden md:block text-right text-gray-400 text-xs md:text-sm font-mono">
               {invoice.invoiceNumber}
             </div>
 
-            <div className="text-center">
+            {/* Acción */}
+            <div className="flex justify-center">
               <button
                 onClick={() => setSelectedInvoice(invoice)}
-                className="w-full max-w-25 inline-block px-3 py-1.5 rounded-3xl text-xs font-semibold border-2 border-[#7ED957]/60 text-[#7ED957] transition-all duration-200 shadow-md hover:cursor-pointer"
+                className="w-full max-w-25 px-3 py-1.5 rounded-3xl text-xs font-semibold border-2 border-[#7ED957]/60 text-[#7ED957] transition-all duration-200 shadow-md hover:cursor-pointer"
               >
-                Ver Factura
+                Ver factura
               </button>
             </div>
           </div>
@@ -97,7 +104,9 @@ const InvoiceListItems = ({
             hover:-translate-y-0.5 hover:cursor-pointer
             active:translate-y-0
           "
-          onClick={() => exportInvoicesToExcel(invoices.map((inv) => ({ invoice: inv })))}
+          onClick={() =>
+            exportInvoicesToExcel(invoices.map((inv) => ({ invoice: inv })))
+          }
         >
           <FiDownload size={20} />
           <span>Descargar facturas</span>

@@ -20,12 +20,12 @@ const InputCard = ({ handleFiles }: InputCardProps) => {
   return (
     <section
       className="
-        w-full lg:w-[500px]
+        w-[90%] lg:w-[500px]
         bg-[#16284B]
         rounded-2xl
         shadow-2xl
         border-t-8 border-[#7ED957]
-        p-8
+        p-4 md:p-8
         text-center
         transition-all
       "
@@ -51,11 +51,11 @@ const InputCard = ({ handleFiles }: InputCardProps) => {
           className="w-24 h-24 md:w-32 md:h-32 object-contain"
         />
 
-        <h2 className="text-3xl md:text-4xl font-bold text-white">
+        <h2 className="text-2xl lg:text-4xl font-bold text-white">
           Sube tus imágenes
         </h2>
 
-        <p className="text-gray-300 max-w-sm">
+        <p className="text-sm text-gray-300 max-w-sm">
           Arrastra tus imágenes aquí o haz clic para subir
         </p>
 
@@ -66,7 +66,7 @@ const InputCard = ({ handleFiles }: InputCardProps) => {
             hover:bg-[#6cc84b] hover:-translate-y-0.5
             text-white
             font-bold
-            px-8 py-4
+            p-2 lg:px-8 lg:py-4
             rounded-2xl
             transition
           "

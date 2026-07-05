@@ -13,7 +13,7 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }: InvoiceCard
     <section>
       <div
         key={index}
-        className="
+        className="w-[90px] md:w-full
           relative
           flex-shrink-0
           rounded-xl

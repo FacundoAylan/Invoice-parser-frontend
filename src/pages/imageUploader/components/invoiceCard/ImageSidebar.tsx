@@ -17,14 +17,14 @@ export const ImageSidebar = ({
   onUpload,
 }: Props) => {
   return (
-    <div className="flex flex-col gap-2 justify-center items-center">
+    <div className="w-[78%] md:w-auto flex flex-col gap-2 justify-center items-center">
       <div
         className="
-          w-full lg:w-[280px]
-          flex flex-col
-          gap-4
+          w-full
+          flex md:flex-col
+          gap-2 md:gap-4
           max-h-[300px]
-          overflow-y-auto
+          overflow-auto
           pr-2 py-4
           scrollbar-thin scrollbar-thumb-[#7ED957]/40 scrollbar-track-transparent
         "
@@ -40,7 +40,7 @@ export const ImageSidebar = ({
         ))}
       </div>
 
-      <div className="flex gap-3 mt-2">
+      <div className="flex gap-3 md:mt-2 pb-6 md:pb-0">
         <button
           className="flex items-center justify-center
             bg-[#0a2540]

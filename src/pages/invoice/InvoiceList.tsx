@@ -16,7 +16,7 @@ const InvoiceList = () => {
     <div className="w-full h-full flex overflow-hidden relative">
       <div
         className={`transition-all duration-500 ease-in-out 
-        ${selectedInvoice ? "w-1/2" : "w-full"}`}
+        ${selectedInvoice ? "w-0 md:w-1/2" : "w-full"}`}
       >
         <InvoiceListItems
           invoices={invoices}
@@ -27,7 +27,7 @@ const InvoiceList = () => {
       <div
         className={`overflow-hidden
         transition-all duration-500 ease-in-out
-        ${selectedInvoice ? "w-1/2 opacity-100" : "w-0 opacity-0"}`}
+        ${selectedInvoice ? "w-full md:w-1/2 opacity-100" : "w-0 opacity-0"}`}
       >
         {selectedInvoice && (
           <InvoiceTable
