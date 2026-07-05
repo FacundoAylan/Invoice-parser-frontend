@@ -12,6 +12,7 @@ import { Loading } from "@/components";
 const API_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ImageUploader = () => {
+  console.log("Aqui estoy: ", API_URL);
   const [images, setImages] = useState<ImagePreview[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
