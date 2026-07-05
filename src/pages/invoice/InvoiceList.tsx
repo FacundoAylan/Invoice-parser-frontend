@@ -16,7 +16,7 @@ const InvoiceList = () => {
     <div className="w-full h-full flex overflow-hidden relative">
       <div
         className={`transition-all duration-500 ease-in-out 
-        ${selectedInvoice ? "w-0 md:w-1/2" : "w-full"}`}
+        ${selectedInvoice ? "hidden md:block md:w-1/2" : "w-full"}`}
       >
         <InvoiceListItems
           invoices={invoices}

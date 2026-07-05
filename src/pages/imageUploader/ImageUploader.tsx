@@ -118,8 +118,8 @@ const ImageUploader = () => {
   };
 
   return (
-    <div className="w-full mx-auto overflow-y-scroll">
-      <div className="h-full flex flex-col lg:flex-row items-center justify-center gap-2 md:gap-8 pt-36 md:pt-0">
+    <div className="w-full mx-auto">
+      <div className="h-full flex flex-col lg:flex-row items-center justify-start lg:justify-center gap-2 md:gap-8 pt-8 md:pt-0 overflow-y-scroll">
         <InputCard handleFiles={handleFiles} />
 
         {images.length > 0 && (
