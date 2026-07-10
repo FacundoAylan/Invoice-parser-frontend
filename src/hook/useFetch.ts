@@ -1,23 +1,23 @@
+import { useInvoiceStore } from "@/store/invoices.store";
+import type { ImagePayload } from "@/types/image";
+import type { InvoiceData } from "@/types/invoice";
 import { useState } from "react";
 
-type Data<T> = T | null;
 type ErrorType = Error | null;
 
-interface UsePostResult<TResponse, TBody> {
-  data: Data<TResponse>;
+interface UsePostResult {
   loading: boolean;
   error: ErrorType;
-  execute: (body: TBody) => Promise<void>;
+  execute: (body: ImagePayload[]) => Promise<void>;
 }
 
-export const usePost = <TResponse, TBody>(
-  url: string,
-): UsePostResult<TResponse, TBody> => {
-  const [data, setData] = useState<Data<TResponse>>(null);
+export const usePost = (url: string): UsePostResult => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<ErrorType>(null);
 
-  const execute = async (body: TBody) => {
+  const setInvoices = useInvoiceStore((state) => state.setInvoices);
+
+  const execute = async (body: ImagePayload[]) => {
     try {
       setLoading(true);
       const response = await fetch(url, {
@@ -34,9 +34,14 @@ export const usePost = <TResponse, TBody>(
         throw new Error("Error en la petición");
       }
 
-      const jsonData = (await response.json()) as { invoices: TResponse };
+      const jsonData = (await response.json()) as {
+        invoices: InvoiceData[];
+      };
 
-      setData(jsonData.invoices);
+      if (jsonData.invoices.length > 0) {
+        setInvoices(jsonData.invoices);
+      }
+
       setError(null);
     } catch (err) {
       setError(err as Error);
@@ -45,5 +50,9 @@ export const usePost = <TResponse, TBody>(
     }
   };
 
-  return { data, loading, error, execute };
+  return {
+    loading,
+    error,
+    execute,
+  };
 };

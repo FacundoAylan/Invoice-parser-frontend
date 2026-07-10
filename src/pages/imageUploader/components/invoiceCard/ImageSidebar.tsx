@@ -1,10 +1,10 @@
-import type { ImagePreview } from "@/types/image";
+import type { StoredImage } from "@/store/images.store";
 import InvoiceCard from "./InvoiceCard";
 
 interface Props {
-  images: ImagePreview[];
+  images: StoredImage[];
   setSelectedIndex: (index: number) => void;
-  handleDelete: (index: number) => void;
+  handleDelete: (id: string) => void;
   onDeleteAll: () => void;
   onUpload: () => void;
 }
@@ -31,7 +31,7 @@ export const ImageSidebar = ({
       >
         {images.map((img, index) => (
           <InvoiceCard
-            key={index}
+            key={img.imageId}
             img={img}
             index={index}
             setSelectedIndex={setSelectedIndex}
@@ -42,7 +42,8 @@ export const ImageSidebar = ({
 
       <div className="flex gap-3 md:mt-2 pb-6 md:pb-0">
         <button
-          className="flex items-center justify-center
+          className="
+            flex items-center justify-center
             bg-[#0a2540]
             text-[#7ed957] font-bold
             px-5 py-2 rounded-xl
@@ -52,10 +53,7 @@ export const ImageSidebar = ({
           onClick={onUpload}
         >
           Subir
-          <img 
-            src="/image/logo2.webp"
-            className="w-6 h-6"
-          />
+          <img src="/image/logo2.webp" className="w-6 h-6" />
         </button>
 
         <button

@@ -6,6 +6,7 @@ export interface Item {
 }
 
 export interface InvoiceData {
+  imageId: string;
   vendorName: string;
   dateOfInvoice: string;
   invoiceNumber: string;

@@ -1,19 +1,24 @@
-import type { ImagePreview } from "@/types/image";
+import type { StoredImage } from "@/store/images.store";
 import { FaTrash } from "react-icons/fa";
 
 interface InvoiceCardProps {
-  img: ImagePreview;
+  img: StoredImage;
   index: number;
   setSelectedIndex: (index: number) => void;
-  handleDelete: (index: number) => void;
-};
+  handleDelete: (id: string) => void;
+}
 
-const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }: InvoiceCardProps) => {
+const InvoiceCard = ({
+  img,
+  index,
+  setSelectedIndex,
+  handleDelete,
+}: InvoiceCardProps) => {
   return (
     <section>
       <div
-        key={index}
-        className="w-[90px] md:w-full
+        className="
+          w-[90px] md:w-full
           relative
           flex-shrink-0
           rounded-xl
@@ -22,7 +27,7 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }: InvoiceCard
         "
       >
         <img
-          src={img.url}
+          src={`data:${img.mimeType};base64,${img.imageBase64}`}
           alt={`preview-${index}`}
           className="
             w-full h-32 object-cover
@@ -35,9 +40,8 @@ const InvoiceCard = ({ img, index, setSelectedIndex, handleDelete }: InvoiceCard
           onClick={() => setSelectedIndex(index)}
         />
 
-        {/* delete button */}
         <button
-          onClick={() => handleDelete(index)}
+          onClick={() => handleDelete(img.imageId)}
           className="
             absolute top-2 right-2
             w-8 h-8 flex items-center justify-center

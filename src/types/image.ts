@@ -1,9 +1,5 @@
 export interface ImagePayload {
+  imageId: string;
   imageBase64: string;
   mimeType: string;
-}
-
-export interface ImagePreview {
-  file: File;
-  url: string;
 }

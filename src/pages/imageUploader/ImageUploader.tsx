@@ -4,39 +4,53 @@ import { Modal } from "./components/modal/modal";
 import InputCard from "./components/inputCard/InputCard";
 import ImageSidebar from "./components/invoiceCard/ImageSidebar";
 import { fileToBase64 } from "./utils/fileBase";
-import type { ImagePayload, ImagePreview } from "@/types/image";
-import type { InvoiceData } from "@/types/invoice";
+import type { ImagePayload } from "@/types/image";
 import { usePost } from "@/hook/useFetch";
 import { Loading } from "@/components";
-
-const API_URL = import.meta.env.VITE_API_BASE_URL;
+import { useImagesStore } from "@/store/images.store";
+import { API_URL } from "@/utils/env";
 
 const ImageUploader = () => {
-  const [images, setImages] = useState<ImagePreview[]>([]);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const navigate = useNavigate();
 
-  const handleFiles = (files: FileList) => {
-    const newImages = Array.from(files).map((file) => ({
-      file,
-      url: URL.createObjectURL(file),
-    }));
+  const images = useImagesStore((state) => state.images);
+  const addImages = useImagesStore((state) => state.addImages);
+  const removeImage = useImagesStore((state) => state.removeImage);
+  const clearImages = useImagesStore((state) => state.clearImages);
 
-    setImages((prev) => [...prev, ...newImages]);
+  const { execute, loading, error } = usePost(`${API_URL}/invoice`);
+
+  useEffect(() => {
+    if (error) {
+      navigate("/error");
+    }
+  }, [error, navigate]);
+
+  const handleFiles = async (files: FileList) => {
+    const newImages = await Promise.all(
+      Array.from(files).map(async (file) => ({
+        imageId: crypto.randomUUID(),
+        imageBase64: await fileToBase64(file),
+        mimeType: file.type,
+        uploaded: false,
+      })),
+    );
+
+    addImages(newImages);
   };
 
-  const handleDelete = (index: number) => {
-    setImages((prev) => {
-      URL.revokeObjectURL(prev[index].url);
-      return prev.filter((_, i) => i !== index);
-    });
+  const handleDelete = (id: string) => {
+    removeImage(id);
+
+    if (selectedIndex !== null && selectedIndex >= images.length - 1) {
+      setSelectedIndex(null);
+    }
   };
 
   const handleDeleteAll = () => {
-    images.forEach((img) => URL.revokeObjectURL(img.url));
-
-    setImages([]);
+    clearImages();
     setSelectedIndex(null);
   };
 
@@ -59,63 +73,41 @@ const ImageUploader = () => {
   const onDelete = () => {
     if (selectedIndex === null) return;
 
-    const deletedIndex = selectedIndex;
+    const image = images[selectedIndex];
 
-    handleDelete(deletedIndex);
+    removeImage(image.imageId);
 
     if (images.length === 1) {
       setSelectedIndex(null);
       return;
     }
 
-    if (deletedIndex >= images.length - 1) {
+    if (selectedIndex >= images.length - 1) {
       setSelectedIndex(images.length - 2);
     }
   };
 
-  const { execute, data, loading, error } = usePost<
-    InvoiceData[],
-    ImagePayload[]
-  >(`${API_URL}/invoice`);
-
-  useEffect(() => {
-    if (error) {
-      navigate("/error");
-    }
-  }, [error, navigate]);
-
-  useEffect(() => {
-    if (data) {
-      navigate("/invoices", {
-        state: {
-          invoices: data,
-        },
-      });
-    }
-  }, [data, navigate]);
-
-  if (loading || error || data) {
-    return <Loading />;
-  }
-
-  const getImagesPayload = async (): Promise<ImagePayload[]> => {
-    return Promise.all(
-      images.map(async (image) => ({
-        imageBase64: await fileToBase64(image.file),
-        mimeType: image.file.type,
-      })),
-    );
-  };
-
   const handleUpload = async () => {
     try {
-      const payload = await getImagesPayload();
+      const payload: ImagePayload[] = images
+        .filter((image) => !image.uploaded)
+        .map((image) => ({
+          imageId: image.imageId,
+          imageBase64: image.imageBase64,
+          mimeType: image.mimeType,
+        }));
 
       await execute(payload);
+
+      navigate("/invoices");
     } catch (err) {
       console.error(err);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="w-full mx-auto">
@@ -125,7 +117,7 @@ const ImageUploader = () => {
         {images.length > 0 && (
           <ImageSidebar
             images={images}
-            setSelectedIndex={(index) => setSelectedIndex(index)}
+            setSelectedIndex={setSelectedIndex}
             handleDelete={handleDelete}
             onDeleteAll={handleDeleteAll}
             onUpload={handleUpload}

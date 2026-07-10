@@ -1,5 +1,7 @@
 import { HiXMark } from "react-icons/hi2";
 import type { InvoiceData, Item } from "@/types/invoice";
+import { useImagesStore } from "@/store/images.store";
+import ImageInspector from "@/components/imageInspector/ImageInspector";
 
 interface InvoiceTable{
   invoice: InvoiceData,
@@ -7,8 +9,16 @@ interface InvoiceTable{
 };
 
 const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
+
+  const invoicesImage = useImagesStore((state) => state.images);
+
+  const invoiceImage = invoicesImage.find((img) => img.imageId === invoice.imageId);
+
   return (
-    <section className="w-full h-[95%] flex justify-center pt-6 px-2">
+    <section className="w-full h-[95%] flex justify-center gap-2 pt-6 px-2">
+      <div className="w-full h-full bg-gray-600 rounded-3xl">
+        {invoiceImage && <ImageInspector image={invoiceImage} />}
+      </div>
       <div className="relative w-full max-w-4xl flex flex-col p-4 overflow-hidden bg-gray-700 rounded-3xl">
         <button
           className="absolute top-4 right-4 z-5 hover:scale-110 hover:cursor-pointer text-red-600"
@@ -17,8 +27,9 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
           <HiXMark className="text-xl" />
         </button>
         {/* Invoice Header */}
+
         <div className="flex flex-wrap gap-3 items-center justify-center md:justify-between p-2 pt-8 rounded-xl shrink-0">
-          <span className="font-bold text-white bg-gray-800 px-4 py-2 rounded-xl md:rounded-3xl border border-green-700 text-xs md:text-sm">
+          <span className="font-bold text-white bg-gray-800 px-4 py-2 rounded-xl md:rounded-3xl border border-green-700 text-xs md:text-sm truncate max-w-[150px] md:max-w-[250px] inline-block">
             {invoice.vendorName}
           </span>
           <div className="flex gap-2 text-xs">
@@ -32,7 +43,6 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
           </div>
         </div>
         {/* Table Headers */}
-        {/* Encabezado */}
         <div className="hidden md:grid md:grid-cols-[1fr_80px_120px_110px] text-white text-xs uppercase tracking-wider p-2 shrink-0 text-right">
           <span className="text-left font-semibold">Producto</span>
           <span className="text-center font-semibold">Cant.</span>
@@ -46,17 +56,16 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
             <div
               key={index}
               className="
-        grid grid-cols-1 md:grid-cols-[1fr_80px_120px_110px]
-        bg-[#0A2540]
-        transition-all duration-150
-        p-3 rounded-xl
-        items-center
-        text-right
-        border border-gray-800/60
-        gap-2
-      "
+                grid grid-cols-1 md:grid-cols-[1fr_80px_120px_110px]
+                bg-[#0A2540]
+                transition-all duration-150
+                p-3 rounded-xl
+                items-center
+                text-right
+                border border-gray-800/60
+                gap-2
+              "
             >
-              {/* Mobile: stack info */}
               <div className="flex flex-col md:block text-left">
                 <span
                   className="font-medium text-white text-sm truncate"
@@ -78,7 +87,6 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
                 </span>
               </div>
 
-              {/* Desktop: columnas separadas */}
               <div className="hidden md:flex justify-center">
                 <span className="inline-block border-2 border-green-700 text-gray-200 text-xs font-semibold px-2.5 py-0.5 rounded-3xl">
                   {item.quantityPurchased}
