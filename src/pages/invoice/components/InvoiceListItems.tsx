@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { FiDownload, FiX } from "react-icons/fi";
+import { FiDownload, FiPlus, FiX } from "react-icons/fi";
 import type { InvoiceData } from "@/types/invoice";
 import type { StoredImage } from "@/store/images.store";
 import exportInvoicesToExcel from "@/utils/excel/exportInvoicesToExcel";
@@ -112,6 +112,13 @@ const InvoiceListItems = ({
 
       {!showPending && (
         <div className="w-full flex flex-wrap justify-center items-center gap-4 pt-6">
+          <button
+            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A2540] text-white font-semibold transition-all duration-200 hover:bg-[#123557] hover:shadow-lg hover:-translate-y-0.5 hover:cursor-pointer active:translate-y-0"
+            onClick={() => navigate("/")}
+          >
+            <FiPlus size={20} />
+            <span>Agregar más facturas</span>
+          </button>
           <button
             className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#8fbe4e] text-[#0A2540] font-semibold transition-all duration-200 hover:bg-[#91E86A] hover:shadow-lg hover:-translate-y-0.5 hover:cursor-pointer active:translate-y-0"
             onClick={() =>

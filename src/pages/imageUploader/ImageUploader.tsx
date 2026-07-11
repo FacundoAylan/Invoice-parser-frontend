@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Modal } from "./components/modal/modal";
 import InputCard from "./components/inputCard/InputCard";
@@ -18,7 +18,9 @@ const ImageUploader = () => {
   const images = useImagesStore((state) => state.images);
   const addImages = useImagesStore((state) => state.addImages);
   const removeImage = useImagesStore((state) => state.removeImage);
-  const clearImages = useImagesStore((state) => state.clearImages);
+  const clearPendingImages = useImagesStore((state) => state.clearPendingImages);
+
+  const pendingImages = images.filter((image) => !image.uploaded);
 
   const { execute, loading, error } = usePost(`${API_URL}/invoice`);
 
@@ -27,6 +29,19 @@ const ImageUploader = () => {
       navigate("/error");
     }
   }, [error, navigate]);
+
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+
+      if (pendingImages.length > 0) {
+        clearPendingImages();
+      }
+    }
+  }, [pendingImages, clearPendingImages]);
 
   const handleFiles = async (files: FileList) => {
     const newImages = await Promise.all(
@@ -44,58 +59,55 @@ const ImageUploader = () => {
   const handleDelete = (id: string) => {
     removeImage(id);
 
-    if (selectedIndex !== null && selectedIndex >= images.length - 1) {
+    if (selectedIndex !== null && selectedIndex >= pendingImages.length - 1) {
       setSelectedIndex(null);
     }
   };
 
+  // Cambiado para usar el método atómico y eficiente del Store
   const handleDeleteAll = () => {
-    clearImages();
+    clearPendingImages();
     setSelectedIndex(null);
   };
 
   const onNext = () => {
     setSelectedIndex((prev) => {
       if (prev === null) return null;
-
-      return prev === images.length - 1 ? 0 : prev + 1;
+      return prev === pendingImages.length - 1 ? 0 : prev + 1;
     });
   };
 
   const onPrev = () => {
     setSelectedIndex((prev) => {
       if (prev === null) return null;
-
-      return prev === 0 ? images.length - 1 : prev - 1;
+      return prev === 0 ? pendingImages.length - 1 : prev - 1;
     });
   };
 
   const onDelete = () => {
     if (selectedIndex === null) return;
 
-    const image = images[selectedIndex];
+    const image = pendingImages[selectedIndex];
 
     removeImage(image.imageId);
 
-    if (images.length === 1) {
+    if (pendingImages.length === 1) {
       setSelectedIndex(null);
       return;
     }
 
-    if (selectedIndex >= images.length - 1) {
-      setSelectedIndex(images.length - 2);
+    if (selectedIndex >= pendingImages.length - 1) {
+      setSelectedIndex(pendingImages.length - 2);
     }
   };
 
   const handleUpload = async () => {
     try {
-      const payload: ImagePayload[] = images
-        .filter((image) => !image.uploaded)
-        .map((image) => ({
-          imageId: image.imageId,
-          imageBase64: image.imageBase64,
-          mimeType: image.mimeType,
-        }));
+      const payload: ImagePayload[] = pendingImages.map((image) => ({
+        imageId: image.imageId,
+        imageBase64: image.imageBase64,
+        mimeType: image.mimeType,
+      }));
 
       await execute(payload);
 
@@ -114,10 +126,12 @@ const ImageUploader = () => {
       <div className="h-full flex flex-col lg:flex-row items-center justify-start lg:justify-center gap-2 md:gap-8 pt-8 md:pt-0 overflow-y-scroll">
         <InputCard handleFiles={handleFiles} />
 
-        {images.length > 0 && (
+        {pendingImages.length > 0 && (
           <ImageSidebar
-            images={images}
-            setSelectedIndex={setSelectedIndex}
+            images={pendingImages}
+            setSelectedIndex={(index) => {
+              setSelectedIndex(index);
+            }}
             handleDelete={handleDelete}
             onDeleteAll={handleDeleteAll}
             onUpload={handleUpload}
@@ -127,7 +141,7 @@ const ImageUploader = () => {
 
       {selectedIndex !== null && (
         <Modal
-          images={images}
+          images={pendingImages}
           currentIndex={selectedIndex}
           onClose={() => setSelectedIndex(null)}
           onNext={onNext}

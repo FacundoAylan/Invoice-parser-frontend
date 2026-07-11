@@ -13,7 +13,10 @@ export const useInvoiceStore = create<InvoiceStore>()(
     (set) => ({
       invoices: [],
 
-      setInvoices: (invoices) => set({ invoices }),
+      setInvoices: (newInvoices) =>
+        set((state) => ({
+          invoices: [...state.invoices, ...newInvoices],
+        })),
 
       clearInvoices: () => set({ invoices: [] }),
     }),

@@ -13,6 +13,7 @@ interface ImagesStore {
   addImages: (images: StoredImage[]) => void;
   removeImage: (id: string) => void;
   clearImages: () => void;
+  clearPendingImages: () => void;
   markAsUploaded: (processedInvoiceIds: string[]) => void;
 }
 
@@ -35,6 +36,11 @@ export const useImagesStore = create<ImagesStore>()(
         set({
           images: [],
         }),
+
+      clearPendingImages: () =>
+        set((state) => ({
+          images: state.images.filter((image) => image.uploaded),
+        })),
 
       markAsUploaded: (processedInvoiceIds) =>
         set((state) => {
