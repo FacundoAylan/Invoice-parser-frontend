@@ -2,6 +2,8 @@ import { HiXMark } from "react-icons/hi2";
 import type { InvoiceData, Item } from "@/types/invoice";
 import { useImagesStore } from "@/store/images.store";
 import ImageInspector from "@/components/imageInspector/ImageInspector";
+import { InvoiceItemRow } from "./InvoiceItemRow";
+import { useState } from "react";
 
 interface InvoiceTable{
   invoice: InvoiceData,
@@ -14,11 +16,19 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
 
   const invoiceImage = invoicesImage.find((img) => img.imageId === invoice.imageId);
 
+  const [isEditing, setIsEditing] = useState(false);
+  const handleSave = () => {};
+  const handleCancel = () => {};
+
+
   return (
     <section className="w-full h-[95%] flex justify-center gap-2 pt-6 px-2">
+      {/* Invoice image */}
       <div className="w-full h-full bg-gray-600 rounded-3xl">
         {invoiceImage && <ImageInspector image={invoiceImage} />}
       </div>
+
+      {/*Close button */}
       <div className="relative w-full max-w-4xl flex flex-col p-4 overflow-hidden bg-gray-700 rounded-3xl">
         <button
           className="absolute top-4 right-4 z-5 hover:scale-110 hover:cursor-pointer text-red-600"
@@ -26,8 +36,8 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
         >
           <HiXMark className="text-xl" />
         </button>
-        {/* Invoice Header */}
 
+        {/* Invoice Header */}
         <div className="flex flex-wrap gap-3 items-center justify-center md:justify-between p-2 pt-8 rounded-xl shrink-0">
           <span className="font-bold text-white bg-gray-800 px-4 py-2 rounded-xl md:rounded-3xl border border-green-700 text-xs md:text-sm truncate max-w-[150px] md:max-w-[250px] inline-block">
             {invoice.vendorName}
@@ -42,69 +52,70 @@ const InvoiceTable = ({ invoice, onClose }: InvoiceTable) => {
             </span>
           </div>
         </div>
+
         {/* Table Headers */}
-        <div className="hidden md:grid md:grid-cols-[1fr_80px_120px_110px] text-white text-xs uppercase tracking-wider p-2 shrink-0 text-right">
+        {/* Header */}
+        <div className="w-full grid grid-cols-[1fr_80px_100px_100px] text-white text-xs uppercase tracking-wider px-4 py-2 shrink-0 border-b border-gray-800/40">
           <span className="text-left font-semibold">Producto</span>
           <span className="text-center font-semibold">Cant.</span>
-          <span className="font-semibold">P. Unitario</span>
-          <span className="font-semibold">Subtotal</span>
+          <span className="text-right font-semibold">P. Unitario</span>
+          <span className="text-right font-semibold">Subtotal</span>
         </div>
 
         {/* Items */}
-        <div className="flex-1 flex flex-col gap-2 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
+        <div className="flex-1 flex flex-col gap-3 overflow-y-auto min-h-0 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent">
           {invoice.items.map((item: Item, index: number) => (
-            <div
-              key={index}
+            <InvoiceItemRow
+              key={`${invoice.imageId}-${index}`}
+              item={item}
+              isEditing={isEditing}
+            />
+          ))}
+        </div>
+
+        {/* Button */}
+        <div className="flex flex-row justify-end gap-2 text-xs w-full sm:w-auto mt-2 sm:mt-0">
+          {isEditing ? (
+            <div className="flex gap-2 w-full sm:w-auto">
+              <button
+              onClick={handleCancel}
+                className="
+                  bg-red-500 text-white font-medium px-4 py-2 rounded-lg
+                  border border-gray-700
+                  transition-transform duration-200 ease-in-out
+                  hover:bg-red-700 hover:scale-105 hover:cursor-pointer
+                  flex-1 sm:flex-none whitespace-nowrap
+                "
+              >
+                Cancelar
+              </button>
+
+              <button
+                onClick={handleSave}
+                className="
+                  bg-[#7ED957] text-[#0A2540] font-semibold px-4 py-2 rounded-lg
+                  transition-transform duration-200 ease-in-out
+                  hover:bg-[#6CC84A] hover:scale-105 hover:cursor-pointer
+                  flex-1 sm:flex-none whitespace-nowrap
+                "
+              >
+                Guardar
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => setIsEditing(true)}
               className="
-                grid grid-cols-1 md:grid-cols-[1fr_80px_120px_110px]
-                bg-[#0A2540]
-                transition-all duration-150
-                p-3 rounded-xl
-                items-center
-                text-right
-                border border-gray-800/60
-                gap-2
+                bg-[#0A2540] text-white font-bold px-4 py-2 rounded-lg
+                border border-gray-700
+                transition-transform duration-200 ease-in-out
+                hover:scale-105 hover:cursor-pointer
+                w-full sm:w-auto whitespace-nowrap
               "
             >
-              <div className="flex flex-col md:block text-left">
-                <span
-                  className="font-medium text-white text-sm truncate"
-                  title={item.description}
-                >
-                  {item.description}
-                </span>
-                <span className="text-xs text-gray-400 md:hidden">
-                  Cant: {item.quantityPurchased}
-                </span>
-                <span className="text-xs text-gray-400 md:hidden">
-                  Unit: ${item.unitPriceWithoutIva.toFixed(2)}
-                </span>
-                <span className="text-xs text-gray-400 md:hidden">
-                  Subtotal: $
-                  {(item.quantityPurchased * item.unitPriceWithoutIva).toFixed(
-                    2,
-                  )}
-                </span>
-              </div>
-
-              <div className="hidden md:flex justify-center">
-                <span className="inline-block border-2 border-green-700 text-gray-200 text-xs font-semibold px-2.5 py-0.5 rounded-3xl">
-                  {item.quantityPurchased}
-                </span>
-              </div>
-
-              <div className="hidden md:block">
-                <span className="inline-block bg-gray-800/30 border border-gray-700/40 text-gray-300 text-sm px-2 py-0.5 rounded-3xl">
-                  ${item.unitPriceWithoutIva.toFixed(2)}
-                </span>
-              </div>
-
-              <div className="hidden md:block font-bold text-gray-200 text-sm">
-                $
-                {(item.quantityPurchased * item.unitPriceWithoutIva).toFixed(2)}
-              </div>
-            </div>
-          ))}
+              Editar
+            </button>
+          )}
         </div>
       </div>
     </section>

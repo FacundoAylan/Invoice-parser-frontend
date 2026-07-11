@@ -5,6 +5,7 @@ import InvoiceListItems from "./components/InvoiceListItems";
 import { useInvoiceStore } from "@/store/invoices.store";
 import { useImagesStore } from "@/store/images.store";
 import { HiPlus } from "react-icons/hi2";
+import { toast, Toaster } from "sonner";
 
 const InvoiceList = () => {
   const invoices = useInvoiceStore((state) => state.invoices);
@@ -30,7 +31,7 @@ const InvoiceList = () => {
 
     if (images.length > 0 && hasPendingImages && !alertMostrado.current) {
       const timer = setTimeout(() => {
-        alert("¡Atención! Todavía quedan imágenes pendientes de procesar.");
+        toast.error("¡Atención! Todavía quedan imágenes pendientes de procesar.");
         alertMostrado.current = true;
       }, 300);
 
@@ -46,6 +47,9 @@ const InvoiceList = () => {
 
   return (
     <div className="w-full h-full flex flex-col overflow-hidden relative">
+      {/* Modal Alert */}
+      <Toaster position="top-center" richColors />
+
       <div className="p-2 flex justify-between items-center bg-slate-900 border-b border-slate-800 z-10">
         <h2 className="text-xl font-bold text-white">
           {showPending ? "Facturas no procesadas" : "Facturas procesadas"}

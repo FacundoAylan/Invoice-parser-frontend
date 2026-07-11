@@ -37,7 +37,8 @@ const InvoiceListItems = ({
   const viewImage = !!selectedImg;
 
   return (
-    <div className="relative w-full h-full mx-auto p-4 shadow-2xl overflow-y-scroll">
+    <div className="relative w-full h-full mx-auto p-2 shadow-2xl">
+
       {(!showPending || !viewImage) && (
         <div className="grid grid-cols-[1fr_100px] md:grid-cols-[1fr_120px_140px_120px] text-gray-500 text-xs uppercase tracking-wider px-4 pb-2">
           <span className="text-left font-semibold">
@@ -55,7 +56,7 @@ const InvoiceListItems = ({
 
       <div className="w-full flex gap-4 overflow-hidden max-h-[90vh]">
         <div
-          className={`flex flex-col gap-2 transition-all duration-500 ease-in-out ${viewImage && showPending ? "w-1/2" : "w-full"}`}
+          className={`max-h-[330px] flex flex-col gap-2 transition-all duration-500 ease-in-out ${viewImage && showPending ? "w-1/2" : "w-full"} px-4 overflow-y-scroll`}
         >
           {showPending ? (
             pendingImages.length === 0 ? (
