@@ -14,7 +14,7 @@ interface InvoiceListItemsProps {
   invoices: InvoiceData[];
   pendingImages: StoredImage[];
   showPending: boolean;
-  setSelectedInvoice: (invoice: InvoiceData) => void;
+  setSelectedInvoice: (imageId: string) => void;
 }
 
 const InvoiceListItems = ({
@@ -82,7 +82,7 @@ const InvoiceListItems = ({
               <ProcessedInvoiceRow
                 key={index}
                 invoice={invoice}
-                onSelect={() => setSelectedInvoice(invoice)}
+                onSelect={() => setSelectedInvoice(invoice.imageId)}
               />
             ))
           )}

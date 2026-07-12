@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import type { InvoiceData } from "@/types/invoice";
 import InvoiceTable from "./components/InvoiceTable";
 import InvoiceListItems from "./components/InvoiceListItems";
 import { useInvoiceStore } from "@/store/invoices.store";
@@ -12,9 +11,7 @@ const InvoiceList = () => {
   const images = useImagesStore((state) => state.images);
   const markAsUploaded = useImagesStore((state) => state.markAsUploaded);
 
-  const [selectedInvoice, setSelectedInvoice] = useState<InvoiceData | null>(
-    null,
-  );
+  const [selectedInvoice, setSelectedInvoice] = useState<string | null>(null);
   const [showPending, setShowPending] = useState<boolean>(false);
 
   const alertMostrado = useRef(false);
@@ -92,7 +89,7 @@ const InvoiceList = () => {
           >
             {selectedInvoice && (
               <InvoiceTable
-                invoice={selectedInvoice}
+                imageId={selectedInvoice}
                 onClose={() => setSelectedInvoice(null)}
               />
             )}

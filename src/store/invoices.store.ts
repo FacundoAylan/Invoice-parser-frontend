@@ -29,7 +29,7 @@ export const useInvoiceStore = create<InvoiceStore>()(
             inv.imageId === invoiceId
               ? {
                   ...inv,
-                  items: inv.items.map((item, idx) =>
+                  items: (inv.items || []).map((item, idx) =>
                     idx === itemIndex ? updatedItem : item,
                   ),
                 }
