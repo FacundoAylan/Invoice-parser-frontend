@@ -53,6 +53,7 @@ const InvoiceList = () => {
         </h2>
 
         <button
+          type="button"
           onClick={togglePendingView}
           className={`flex items-center gap-2 px-6 py-2 rounded-xl font-semibold transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:cursor-pointer active:translate-y-0 border ${
             showPending

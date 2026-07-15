@@ -41,6 +41,7 @@ const InvoiceCard = ({
         />
 
         <button
+          type="button"
           onClick={() => handleDelete(img.imageId)}
           className="
             absolute top-2 right-2

@@ -27,6 +27,7 @@ const ProcessedInvoiceRow = ({
 
       <div className="flex justify-center">
         <button
+          type="button"
           onClick={onSelect}
           className="w-full max-w-25 px-3 py-1.5 rounded-3xl text-xs font-semibold border-2 border-[#7ED957]/60 text-[#7ED957] transition-all duration-200 shadow-md hover:cursor-pointer hover:scale-105"
         >

@@ -42,6 +42,7 @@ export const ImageSidebar = ({
 
       <div className="flex gap-3 md:mt-2 pb-6 md:pb-0">
         <button
+          type="button"
           className="
             flex items-center justify-center
             bg-[#0a2540]
@@ -53,7 +54,7 @@ export const ImageSidebar = ({
           onClick={onUpload}
         >
           Subir
-          <img src="/image/logo2.webp" className="w-6 h-6" />
+          <img src="/image/logo2.webp" className="w-6 h-6" alt="logo 2" />
         </button>
 
         <button

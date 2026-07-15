@@ -144,6 +144,7 @@ return (
 
           <div className="flex gap-2">
             <button
+              type="button"
               onClick={handleNavigateToInvoices}
               className="px-4 py-2 text-sm font-semibold text-[#0A2540] bg-[#7ED957] rounded-lg 
                  transition-transform duration-200 ease-in-out 
@@ -153,6 +154,7 @@ return (
             </button>
 
             <button
+              type="button"
               onClick={handleClearInvoices}
               className="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg 
                  transition-transform duration-200 ease-in-out 
@@ -164,7 +166,7 @@ return (
         </div>
       )}
     </div>
-    
+
     <div className="h-full flex flex-col lg:flex-row items-center justify-start lg:justify-center gap-2 md:gap-8 md:pt-0 overflow-y-scroll">
       <InputCard handleFiles={handleFiles} />
 

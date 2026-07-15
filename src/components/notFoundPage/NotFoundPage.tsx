@@ -10,7 +10,6 @@ const NotFoundPage = () => {
 
   return (
     <section className="flex flex-col items-center gap-4 w-full h-screen bg-white text-gray-800 px-4 py-24">
-
       <img
         src="/image/logo404.webp"
         alt="Logo de error 404"
@@ -24,7 +23,8 @@ const NotFoundPage = () => {
         Es posible que el enlace esté roto o que la ruta no exista.
       </p>
 
-      <button 
+      <button
+        type="button"
         className="px-6 py-3 bg-[#0a2540] hover:bg-[#1a3a66] hover:cursor-pointer text-white rounded-lg shadow-lg transition-all duration-300 font-semibold hover:scale-105"
         onClick={redirect}
       >

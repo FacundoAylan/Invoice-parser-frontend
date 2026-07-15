@@ -15,7 +15,7 @@ const ErrorPage = () => {
       setTimeLeft((prevTime) => prevTime - 1);
     }, 1000);
 
-    return () => clearTimeout(intervalId);
+    return () => clearInterval(intervalId);
   }, [timeLeft, navigate]);
 
   return (
@@ -35,6 +35,7 @@ const ErrorPage = () => {
         {timeLeft === 1 ? "segundo" : "segundos"}.
       </p>
       <button
+        type="button"
         onClick={() => navigate("/")}
         className="px-6 py-3 bg-[#0a2540] hover:bg-[#1a3a66] hover:cursor-pointer text-white rounded-lg shadow-lg transition-all duration-300 font-semibold hover:scale-105"
       >

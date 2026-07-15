@@ -38,7 +38,6 @@ const InvoiceListItems = ({
 
   return (
     <div className="relative w-full h-full mx-auto p-2 shadow-2xl">
-
       {(!showPending || !viewImage) && (
         <div className="grid grid-cols-[1fr_100px] md:grid-cols-[1fr_120px_140px_120px] text-gray-500 text-xs uppercase tracking-wider px-4 pb-2">
           <span className="text-left font-semibold">
@@ -99,6 +98,7 @@ const InvoiceListItems = ({
             {selectedImg && (
               <div className="relative">
                 <button
+                  type="button"
                   onClick={() => setSelectedImg(null)}
                   className="absolute top-4 right-4 z-50 p-1 text-red-500 rounded-3xl bg-gray-600 hover:text-red-600 transition-all cursor-pointer"
                 >
@@ -114,6 +114,7 @@ const InvoiceListItems = ({
       {!showPending && (
         <div className="w-full flex flex-wrap justify-center items-center gap-4 pt-6">
           <button
+            type="button"
             className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0A2540] text-white font-semibold transition-all duration-200 hover:bg-[#123557] hover:shadow-lg hover:-translate-y-0.5 hover:cursor-pointer active:translate-y-0"
             onClick={() => navigate("/")}
           >
@@ -121,6 +122,7 @@ const InvoiceListItems = ({
             <span>Agregar más facturas</span>
           </button>
           <button
+            type="button"
             className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#8fbe4e] text-[#0A2540] font-semibold transition-all duration-200 hover:bg-[#91E86A] hover:shadow-lg hover:-translate-y-0.5 hover:cursor-pointer active:translate-y-0"
             onClick={() =>
               exportInvoicesToExcel(invoices.map((inv) => ({ invoice: inv })))
@@ -131,6 +133,7 @@ const InvoiceListItems = ({
           </button>
 
           <button
+            type="button"
             onClick={handleNewInvoices}
             className="px-6 py-3 rounded-xl border border-[#7ED957] bg-[#0A2540] text-white font-semibold transition-all duration-200 hover:bg-[#12345A] hover:shadow-lg hover:-translate-y-0.5 hover:cursor-pointer active:translate-y-0"
           >

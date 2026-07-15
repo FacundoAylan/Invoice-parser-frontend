@@ -92,6 +92,7 @@ const InvoiceTable = ({ imageId, onClose }: InvoiceTableProps) => {
       {/* Close button & Content container */}
       <div className="relative w-full max-w-4xl flex flex-col p-4 overflow-hidden bg-gray-700 rounded-3xl">
         <button
+          type="button"
           className="absolute top-4 right-4 z-5 hover:scale-110 hover:cursor-pointer text-red-600"
           onClick={onClose}
         >
@@ -105,7 +106,8 @@ const InvoiceTable = ({ imageId, onClose }: InvoiceTableProps) => {
           </span>
           <div className="flex gap-2 text-xs">
             <span className="bg-[#0A2540] border border-green-700/60 px-3 py-1.5 rounded-xl md:rounded-3xl text-white">
-              Fecha: <span className="text-white">{invoice?.dateOfInvoice}</span>
+              Fecha:{" "}
+              <span className="text-white">{invoice?.dateOfInvoice}</span>
             </span>
             <span className="bg-[#0A2540] border border-green-700/60 px-3 py-1.5 rounded-xl md:rounded-3xl text-white">
               Factura:{" "}
@@ -153,6 +155,7 @@ const InvoiceTable = ({ imageId, onClose }: InvoiceTableProps) => {
           {isEditing ? (
             <div className="flex gap-2 w-full sm:w-auto">
               <button
+                type="button"
                 onClick={handleCancel}
                 className="bg-red-500 text-white font-medium px-4 py-2 rounded-lg border border-gray-700 transition-all duration-200 hover:bg-red-700 hover:scale-105 hover:cursor-pointer flex-1 sm:flex-none whitespace-nowrap"
               >
@@ -160,6 +163,7 @@ const InvoiceTable = ({ imageId, onClose }: InvoiceTableProps) => {
               </button>
 
               <button
+                type="button"
                 onClick={handleSave}
                 className="bg-[#7ED957] text-[#0A2540] font-semibold px-4 py-2 rounded-lg transition-all duration-200 hover:bg-[#6CC84A] hover:scale-105 hover:cursor-pointer flex-1 sm:flex-none whitespace-nowrap"
               >
@@ -168,6 +172,7 @@ const InvoiceTable = ({ imageId, onClose }: InvoiceTableProps) => {
             </div>
           ) : (
             <button
+              type="button"
               onClick={handleEditStart}
               className="bg-[#0A2540] text-white font-bold px-5 py-2 rounded-lg border border-gray-700 transition-all duration-200 hover:scale-105 hover:cursor-pointer w-full sm:w-auto whitespace-nowrap"
             >

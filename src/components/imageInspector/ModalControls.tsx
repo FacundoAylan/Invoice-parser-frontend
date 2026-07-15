@@ -30,9 +30,10 @@ export const ModalControls = ({
         { label: "-", title: "Alejar", action: onZoomOut },
         { label: "↺", title: "Rotar a la izquierda", action: onRotateLeft },
         { label: "↻", title: "Rotar a la derecha", action: onRotateRight },
-      ].map((btn, i) => (
+      ].map((btn) => (
         <button
-          key={i}
+          type="button"
+          key={btn.label}
           onClick={btn.action}
           title={btn.title}
           className="
@@ -50,6 +51,7 @@ export const ModalControls = ({
 
       {onDelete && (
         <button
+          type="button"
           onClick={onDelete}
           title="Eliminar"
           className="

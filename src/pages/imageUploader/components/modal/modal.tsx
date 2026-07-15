@@ -53,6 +53,7 @@ export const Modal = ({
     <section className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center">
       {/* Close button */}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onClose();
@@ -64,6 +65,7 @@ export const Modal = ({
 
       {/* Prev. button*/}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onPrev();
@@ -83,6 +85,7 @@ export const Modal = ({
 
       {/* Next button */}
       <button
+        type="button"
         onClick={(e) => {
           e.stopPropagation();
           onNext();

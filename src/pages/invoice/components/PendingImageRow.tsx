@@ -46,6 +46,7 @@ const PendingImageRow = ({
 
       <div className="flex justify-center">
         <button
+          type="button"
           onClick={onViewClick}
           className="text-xs px-3 py-1.5 rounded-3xl font-semibold border transition-all cursor-pointer bg-[#7ED957]/20 text-[#7ED957] border-[#7ED957]/30 font-bold"
         >
