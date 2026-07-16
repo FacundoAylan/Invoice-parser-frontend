@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { Modal } from "./components/modal/modal";
 import InputCard from "./components/inputCard/InputCard";
@@ -23,9 +23,9 @@ const ImageUploader = () => {
   const images = useImagesStore((state) => state.images);
   const addImages = useImagesStore((state) => state.addImages);
   const removeImage = useImagesStore((state) => state.removeImage);
-  const clearPendingImages = useImagesStore((state) => state.clearPendingImages);
+  const clearImages = useImagesStore((state) => state.clearImages);
 
-  const pendingImages = images.filter((image) => !image.uploaded);
+  const pendingImages = images.filter((image) => !image.isProcessed);
 
   const { execute, loading, error } = usePost(`${API_URL}/invoice`);
 
@@ -36,25 +36,14 @@ const ImageUploader = () => {
   }, [error, navigate]);
 
 
-  const isInitialMount = useRef(true);
-
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-
-      if (pendingImages.length > 0) {
-        clearPendingImages();
-      }
-    }
-  }, [pendingImages, clearPendingImages]);
-
   const handleFiles = async (files: FileList) => {
     const newImages = await Promise.all(
       Array.from(files).map(async (file) => ({
         imageId: crypto.randomUUID(),
         imageBase64: await fileToBase64(file),
         mimeType: file.type,
-        uploaded: false,
+        hasAssociatedInvoice: false,
+        isProcessed: false,
       })),
     );
 
@@ -70,7 +59,7 @@ const ImageUploader = () => {
   };
 
   const handleDeleteAll = () => {
-    clearPendingImages();
+    clearImages();
     setSelectedIndex(null);
   };
 
@@ -111,6 +100,8 @@ const ImageUploader = () => {
         imageId: image.imageId,
         imageBase64: image.imageBase64,
         mimeType: image.mimeType,
+        hasAssociatedInvoice:false,
+        isProcessed:false,
       }));
 
       await execute(payload);

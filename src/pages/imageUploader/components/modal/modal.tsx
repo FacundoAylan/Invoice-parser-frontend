@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { HiXMark } from "react-icons/hi2";
-import ImageInspector from "../../../../components/imageInspector/ImageInspector";
-import type { StoredImage } from "@/store/images.store";
+import ImageInspector from "@/components/imageInspector/ImageInspector";
+import type { ImagePayload } from "@/types/image";
 
 interface ModalProps {
-  images: StoredImage[];
+  images: ImagePayload[];
   currentIndex: number;
   onClose: () => void;
   onNext: () => void;
@@ -43,11 +43,6 @@ export const Modal = ({
 
   if (!image) return null;
 
-  const imagePayload = {
-    imageId: image.imageId,
-    imageBase64: image.imageBase64,
-    mimeType: image.mimeType,
-  };
 
   return (
     <section className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center">
@@ -78,7 +73,7 @@ export const Modal = ({
       <div className="w-[80vw] h-[80vh] flex items-center justify-center">
         <ImageInspector
           key={image.imageId}
-          image={imagePayload}
+          image={image}
           onDelete={onDelete}
         />
       </div>

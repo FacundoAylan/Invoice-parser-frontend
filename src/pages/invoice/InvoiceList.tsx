@@ -7,6 +7,7 @@ import { HiPlus } from "react-icons/hi2";
 import { toast, Toaster } from "sonner";
 
 const InvoiceList = () => {
+
   const invoices = useInvoiceStore((state) => state.invoices);
   const images = useImagesStore((state) => state.images);
   const markAsUploaded = useImagesStore((state) => state.markAsUploaded);
@@ -24,7 +25,7 @@ const InvoiceList = () => {
   }, [invoices, markAsUploaded]);
 
   useEffect(() => {
-    const hasPendingImages = images.some((img) => !img.uploaded);
+    const hasPendingImages = images.some((img) => !img.hasAssociatedInvoice);
 
     if (images.length > 0 && hasPendingImages && !alertMostrado.current) {
       const timer = setTimeout(() => {
@@ -36,7 +37,7 @@ const InvoiceList = () => {
     }
   }, [images]);
 
-  const pendingImages = images.filter((img) => !img.uploaded);
+  const pendingImages = images.filter((img) => !img.hasAssociatedInvoice);
 
   const togglePendingView = () => {
     setShowPending((prev) => !prev);

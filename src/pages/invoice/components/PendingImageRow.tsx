@@ -1,7 +1,7 @@
-import type { StoredImage } from "@/store/images.store";
+import type { ImagePayload } from "@/types/image";
 
 interface PendingImageRowProps {
-  img: StoredImage;
+  img: ImagePayload;
   viewImage: boolean;
   onViewClick: () => void;
 }

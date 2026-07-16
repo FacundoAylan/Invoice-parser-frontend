@@ -1,19 +1,12 @@
+import type { ImagePayload } from "@/types/image";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-export interface StoredImage {
-  imageId: string;
-  imageBase64: string;
-  mimeType: string;
-  uploaded: boolean;
-}
-
 interface ImagesStore {
-  images: StoredImage[];
-  addImages: (images: StoredImage[]) => void;
+  images: ImagePayload[];
+  addImages: (images: ImagePayload[]) => void;
   removeImage: (id: string) => void;
   clearImages: () => void;
-  clearPendingImages: () => void;
   markAsUploaded: (processedInvoiceIds: string[]) => void;
 }
 
@@ -37,20 +30,20 @@ export const useImagesStore = create<ImagesStore>()(
           images: [],
         }),
 
-      clearPendingImages: () =>
-        set((state) => ({
-          images: state.images.filter((image) => image.uploaded),
-        })),
-
-      markAsUploaded: (processedInvoiceIds) =>
+      markAsUploaded: (processedInvoiceIds: string[]) =>
         set((state) => {
-          const processedSet = new Set(processedInvoiceIds);
+          const invoiceSet = new Set(processedInvoiceIds);
+
           return {
-            images: state.images.map((image) =>
-              processedSet.has(image.imageId)
-                ? { ...image, uploaded: true }
-                : image,
-            ),
+            images: state.images.map((image) => {
+              const hasInvoice = invoiceSet.has(image.imageId);
+
+              return {
+                ...image,
+                isProcessed: true, 
+                hasAssociatedInvoice: hasInvoice,
+              };
+            }),
           };
         }),
     }),

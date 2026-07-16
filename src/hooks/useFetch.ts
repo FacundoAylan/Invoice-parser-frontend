@@ -20,13 +20,20 @@ export const usePost = (url: string): UsePostResult => {
   const execute = async (body: ImagePayload[]) => {
     try {
       setLoading(true);
+
+      const formattedInvoices = body.map((img) => ({
+        imageId: img.imageId,
+        imageBase64: img.imageBase64,
+        mimeType: img.mimeType,
+      }));
+
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          invoices: body,
+          invoices: formattedInvoices,
         }),
       });
 

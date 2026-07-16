@@ -1,8 +1,8 @@
-import type { StoredImage } from "@/store/images.store";
+import type { ImagePayload } from "@/types/image";
 import InvoiceCard from "./InvoiceCard";
 
 interface Props {
-  images: StoredImage[];
+  images: ImagePayload[];
   setSelectedIndex: (index: number) => void;
   handleDelete: (id: string) => void;
   onDeleteAll: () => void;

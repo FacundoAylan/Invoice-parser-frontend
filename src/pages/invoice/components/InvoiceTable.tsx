@@ -2,7 +2,7 @@ import { useState, type ChangeEvent } from "react";
 import { HiXMark } from "react-icons/hi2";
 import type { Item } from "@/types/invoice";
 import { useImagesStore } from "@/store/images.store";
-import { useInvoiceStore } from "@/store/invoices.store"; // Asegúrate de importar tu store de facturas
+import { useInvoiceStore } from "@/store/invoices.store";
 import ImageInspector from "@/components/imageInspector/ImageInspector";
 import { InvoiceItemRow } from "./InvoiceItemRow";
 

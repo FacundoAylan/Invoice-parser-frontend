@@ -1,8 +1,8 @@
-import type { StoredImage } from "@/store/images.store";
+import type { ImagePayload } from "@/types/image";
 import { FaTrash } from "react-icons/fa";
 
 interface InvoiceCardProps {
-  img: StoredImage;
+  img: ImagePayload;
   index: number;
   setSelectedIndex: (index: number) => void;
   handleDelete: (id: string) => void;

@@ -21,7 +21,28 @@
   - Azul oscuro `#0A2540`
   - Verde lima `#7ED957`
   - Hover verde suave `#6CC84A`
+## 🖼️ Modelo de Datos de Imagen
 
+La interfaz `ImagePayload` define la estructura de las imágenes procesadas en la aplicación:
+
+```typescript
+export interface ImagePayload {
+  /** Identificador único de la imagen */
+  imageId: string;
+  
+  /** String codificado en Base64 con el contenido de la imagen */
+  imageBase64: string;
+  
+  /** Tipo MIME del archivo (ej. "image/jpeg", "image/png") */
+  mimeType: string;
+  
+  /** Indica si la imagen ya fue procesada por el sistema */
+  isProcessed: boolean;
+  
+  /** Indica si la imagen tiene una factura/comprobante asociado */
+  hasAssociatedInvoice: boolean;
+}
+```
 ---
 
 ## 🧠 Tecnologías

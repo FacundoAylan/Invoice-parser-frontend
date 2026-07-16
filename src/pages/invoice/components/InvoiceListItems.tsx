@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router";
 import { FiDownload, FiPlus, FiX } from "react-icons/fi";
 import type { InvoiceData } from "@/types/invoice";
-import type { StoredImage } from "@/store/images.store";
 import exportInvoicesToExcel from "@/utils/excel/exportInvoicesToExcel";
 import { useInvoiceStore } from "@/store/invoices.store";
 import { useImagesStore } from "@/store/images.store";
@@ -9,10 +8,11 @@ import ImageInspector from "@/components/imageInspector/ImageInspector";
 import { useState } from "react";
 import PendingImageRow from "./PendingImageRow";
 import ProcessedInvoiceRow from "./ProcessedInvoiceRow";
+import type { ImagePayload } from "@/types/image";
 
 interface InvoiceListItemsProps {
   invoices: InvoiceData[];
-  pendingImages: StoredImage[];
+  pendingImages: ImagePayload[];
   showPending: boolean;
   setSelectedInvoice: (imageId: string) => void;
 }
@@ -23,7 +23,7 @@ const InvoiceListItems = ({
   showPending,
   setSelectedInvoice,
 }: InvoiceListItemsProps) => {
-  const [selectedImg, setSelectedImg] = useState<StoredImage | null>(null);
+  const [selectedImg, setSelectedImg] = useState<ImagePayload | null>(null);
   const navigate = useNavigate();
   const clearInvoices = useInvoiceStore((state) => state.clearInvoices);
   const clearImages = useImagesStore((state) => state.clearImages);
